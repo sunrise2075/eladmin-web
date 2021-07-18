@@ -24,7 +24,7 @@ ELADMIN 前端源码
 https://www.ydyno.com/archives/1219.html
 
 # 安装依赖
-npm install
+npm install  或者  npm install --save --legacy-peer-deps
 
 # 启动服务 localhost:8013
 npm run dev
