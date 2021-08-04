@@ -2,15 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: 'api/worksPodcast',
-    method: 'post',
-    data
-  })
-}
-
-export function uploadBanner(data) {
-  return request({
-    url: 'api/uploadBanner',
+    url: 'api/worksBulletin',
     method: 'post',
     data
   })
@@ -18,7 +10,7 @@ export function uploadBanner(data) {
 
 export function del(ids) {
   return request({
-    url: 'api/worksPodcast/',
+    url: 'api/worksBulletin/',
     method: 'delete',
     data: ids
   })
@@ -26,10 +18,10 @@ export function del(ids) {
 
 export function edit(data) {
   return request({
-    url: 'api/worksPodcast',
+    url: 'api/worksBulletin',
     method: 'put',
     data
   })
 }
 
-export default { add, edit, del, uploadBanner }
+export default { add, edit, del }
