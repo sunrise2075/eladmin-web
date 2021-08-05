@@ -72,7 +72,6 @@
             </span>
             <span v-else>
               <a :href="baseFilePathProd + scope.row.files[0]" target="_blank">视频下载</a>
-<!--              <span style="cursor: pointer;" @click="openDialog2(baseFilePathProd + scope.row.files[0])">播放视频</span>-->
             </span>
           </template>
         </el-table-column>
@@ -105,10 +104,11 @@
     <el-dialog
       :visible.sync="articleDialogVisible"
       title="文章内容"
-      width="30%">
-      <div v-for="(item, index) in TransferString(myFileUrl)" :key="index">{{ item }}</div>
+      width="50%">
+<!--      <div v-for="(item, index) in TransferString(myFileUrl)" :key="index">{{ item }}</div>-->
+      <quillEditor ref="text" v-model="this.articleContent" @focus="focusArticleContent($event)" style="height: 450px;" class="myQuillEditor" :options="editorOption" />
       <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="articleDialogVisible = false">确 定</el-button>
+<!--      <el-button type="primary" @click="articleDialogVisible = false">确 定</el-button>-->
       </span>
     </el-dialog>
   </div>
@@ -121,6 +121,10 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 const defaultForm = {
   id: null,
@@ -137,14 +141,16 @@ const defaultForm = {
 }
 export default {
   name: 'WorksInfo',
-  components: {pagination, crudOperation, rrOperation, udOperation, quillEditor},
+  components: {pagination, crudOperation, rrOperation, udOperation, quillEditor },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
     return CRUD({ title: '作品信息', url: 'api/worksInfo', idField: 'id', sort: 'id,desc', crudMethod: { ...crudWorksInfo }})
   },
   data() {
     return {
-      myFileUrl: '',
+      editorOption: {
+      },
+      articleContent: '',
       articleDialogVisible: false,
       videoDialogVisible: false,
       permission: {
@@ -180,9 +186,12 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
+    focusArticleContent(event) {
+      event.enable(false)
+    },
     openDialog(msg) {
       this.articleDialogVisible = true
-      this.myFileUrl = msg
+      this.articleContent = msg
     },
     TransferString(text1) {
       let str = []

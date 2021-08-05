@@ -67,7 +67,6 @@ export default {
   data() {
     return {
       editorOption: {
-        name: 'content'
       },
       permission: {
         add: ['admin', 'worksBulletin:add'],
