@@ -5,24 +5,32 @@
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
         <label class="el-form-item-label">直播链接地址</label>
-        <el-input v-model="query.url" class="filter-item" clearable placeholder="直播链接地址" style="width: 185px;"
-                  @keyup.enter.native="crud.toQuery"/>
+        <el-input
+          v-model="query.url"
+          class="filter-item"
+          clearable
+          placeholder="直播链接地址"
+          style="width: 185px;"
+          @keyup.enter.native="crud.toQuery"/>
         <label class="el-form-item-label">海报相对路径</label>
-        <el-input v-model="query.imagePath" class="filter-item" clearable placeholder="海报相对路径" style="width: 185px;"
+        <el-input
+          v-model="query.imagePath"
+          class="filter-item"
+          clearable
+          placeholder="海报相对路径"
+          style="width: 185px;"
                   @keyup.enter.native="crud.toQuery"/>
-        <date-range-picker
-          v-model="query.beginTime"
-          class="date-item"
-          end-placeholder="beginTimeStart"
-          start-placeholder="beginTimeStart"
-        />
         <rrOperation :crud="crud"/>
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission"/>
       <!--表单组件-->
-      <el-dialog :before-close="crud.cancelCU" :close-on-click-modal="false" :title="crud.status.title"
-                 :visible.sync="crud.status.cu > 0" width="500px">
+      <el-dialog
+        :before-close="crud.cancelCU"
+        :close-on-click-modal="false"
+        :title="crud.status.title"
+        :visible.sync="crud.status.cu > 0"
+        width="500px">
         <el-form ref="form" :model="form" :rules="rules" label-width="80px" size="small">
           <el-form-item label="id" style="display: none;">
             <el-input v-model="form.id" style="width: 370px;"/>
@@ -60,8 +68,13 @@
         </div>
       </el-dialog>
       <!--表格渲染-->
-      <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;"
-                @selection-change="crud.selectionChangeHandler">
+      <el-table
+        ref="table"
+        v-loading="crud.loading"
+        :data="crud.data"
+        size="small"
+        style="width: 100%;"
+        @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55"/>
         <!--        <el-table-column prop="id" label="id" />-->
         <el-table-column label="直播链接地址" prop="url"/>
@@ -101,17 +114,17 @@
 
 <script>
 import crudWorksPodcast from '@/api/worksPodcast'
-import CRUD, {presenter, header, form, crud} from '@crud/crud'
+import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
-import {getToken} from "@/utils/auth";
+import { getToken } from '@/utils/auth'
 
-const defaultForm = {id: null, url: null, imagePath: null, beginTime: null, createdTime: null}
+const defaultForm = { id: null, url: null, imagePath: null, beginTime: null, createdTime: null }
 export default {
   name: 'WorksPodcast',
-  components: {pagination, crudOperation, rrOperation, udOperation},
+  components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
     return CRUD({
@@ -119,7 +132,7 @@ export default {
       url: 'api/worksPodcast',
       idField: 'id',
       sort: 'id,desc',
-      crudMethod: {...crudWorksPodcast}
+      crudMethod: { ...crudWorksPodcast }
     })
   },
   data() {
@@ -139,8 +152,8 @@ export default {
       limit: 1,
       rules: {},
       queryTypeOptions: [
-        {key: 'url', display_name: '直播链接地址'},
-        {key: 'imagePath', display_name: '海报相对路径'}
+        { key: 'url', display_name: '直播链接地址' },
+        { key: 'imagePath', display_name: '海报相对路径' }
       ]
     }
   },
