@@ -2,11 +2,42 @@
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
+
+      <div v-if="crud.props.searchToggle">
+        <!-- 搜索 -->
+        <label class="el-form-item-label">作者姓名</label>
+        <el-input
+          v-model="query.authorName"
+          class="filter-item"
+          clearable
+          placeholder="作者姓名"
+          style="width: 185px;"
+          @keyup.enter.native="crud.toQuery"/>
+        <label class="el-form-item-label">作品类型</label>
+        <el-select
+          v-model="query.type"
+          class="filter-item"
+          clearable
+          placeholder="作品类型"
+          style="width: 185px;"
+          @keyup.enter.native="crud.toQuery">
+          <el-option
+            v-for="(item, index) in worksTypeOption"
+            :key="index"
+            :label="item.label"
+            :value="item.value"></el-option>
+        </el-select>
+        <rrOperation :crud="crud"/>
+      </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission"/>
       <!--表单组件-->
-      <el-dialog :before-close="crud.cancelCU" :close-on-click-modal="false" :title="crud.status.title"
-                 :visible.sync="crud.status.cu > 0" width="500px">
+      <el-dialog
+        :before-close="crud.cancelCU"
+        :close-on-click-modal="false"
+        :title="crud.status.title"
+        :visible.sync="crud.status.cu > 0"
+        width="500px">
         <el-form ref="form" :model="form" :rules="rules" label-width="100px" size="small">
           <el-form-item label="作者姓名">
             <el-input v-model="form.authorName" readonly style="width: 370px;"/>
@@ -144,10 +175,19 @@ export default {
   components: {pagination, crudOperation, rrOperation, udOperation, quillEditor },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '作品信息', url: 'api/worksInfo', idField: 'id', sort: 'id,desc', crudMethod: { ...crudWorksInfo }})
+    return CRUD({ title: '作品信息',
+      url: 'api/worksInfo',
+      idField: 'id',
+      sort: 'id,desc',
+      crudMethod: { ...crudWorksInfo }
+    })
   },
   data() {
     return {
+      queryTypeOptions: [
+        { key: 'authorName', display_name: '作者姓名' },
+        { key: 'type', display_name: '作品类型' }
+      ],
       editorOption: {
       },
       articleContent: '',
@@ -158,6 +198,20 @@ export default {
         edit: ['admin', 'worksInfo:edit'],
         del: ['admin', 'worksInfo:del']
       },
+      worksTypeOption: [
+        {
+          value: 0,
+          label: '文字'
+        },
+        {
+          value: 1,
+          label: '图片'
+        },
+        {
+          value: 2,
+          label: '视频'
+        }
+      ],
       lifeStatusOptions: [
         {
           value: 1,
