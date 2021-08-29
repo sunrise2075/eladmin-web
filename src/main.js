@@ -31,6 +31,10 @@ import './assets/icons' // icon
 import './router/index' // permission control
 import 'echarts-gl'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 Vue.use(checkPer)
 Vue.use(VueHighlightJS)
 Vue.use(mavonEditor)

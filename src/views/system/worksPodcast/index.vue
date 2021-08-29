@@ -46,7 +46,7 @@
               :limit="limit"
               :on-exceed="exceedFilePath"
               :on-success="saveFilePath"
-              :action=" baseFilePathProd + '/api/worksPodcast/uploadBanner'"
+              :action="fileActionUrl4Dev"
               class="upload-demo"
               drag
               multiple>
@@ -120,6 +120,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { getToken } from '@/utils/auth'
+import {DEV_FILE_DOWNLOAD_URL_BASE, PROD_FILE_DOWNLOAD_URL_BASE} from '../../../api/constants'
 
 const defaultForm = { id: null, url: null, imagePath: null, beginTime: null, createdTime: null }
 export default {
@@ -138,14 +139,14 @@ export default {
   data() {
     return {
       imagePath: '',
-      baseFilePathDev: 'http://localhost:8000',
-      baseFilePathProd: 'http://voteadmin.weinui.com/voteBg',
       bannerDialogDisplay: false,
       permission: {
         add: ['admin', 'worksPodcast:add'],
         edit: ['admin', 'worksPodcast:edit'],
         del: ['admin', 'worksPodcast:del']
       },
+      fileActionUrl4Dev: DEV_FILE_DOWNLOAD_URL_BASE + '/api/worksPodcast/uploadBanner',
+      fileActionUrl4Prod: PROD_FILE_DOWNLOAD_URL_BASE + '/api/worksPodcast/uploadBanner',
       headers: {
         Authorization: getToken()
       },
@@ -170,8 +171,7 @@ export default {
     },
     openDialog(imgRelativePath) {
       this.bannerDialogDisplay = true
-      this.imagePath = this.baseFilePathProd + imgRelativePath
-      console.log(this.imagePath)
+      this.imagePath = DEV_FILE_DOWNLOAD_URL_BASE + imgRelativePath
     },
     removeFilePath() {
       this.form.imagePath = ''
